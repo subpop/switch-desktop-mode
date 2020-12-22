@@ -52,27 +52,28 @@ fn set_mode_dock() {
 }
 
 fn disable_shell_extension(uuid: &str) {
-    let conn = dbus::blocking::Connection::new_session().unwrap();
-    let proxy = dbus::blocking::Proxy::new(
+    call_method(
         "org.gnome.Shell",
         "/org/gnome/Shell",
-        std::time::Duration::from_millis(5000),
-        &conn,
+        "org.gnome.Shell.Extensions",
+        "DisableExtension",
+        (uuid,),
     );
-    let _: () = proxy
-        .method_call("org.gnome.Shell.Extensions", "DisableExtension", (uuid,))
-        .unwrap();
 }
 
 fn enable_shell_extension(uuid: &str) {
-    let conn = dbus::blocking::Connection::new_session().unwrap();
-    let proxy = dbus::blocking::Proxy::new(
+    call_method(
         "org.gnome.Shell",
         "/org/gnome/Shell",
-        std::time::Duration::from_millis(5000),
-        &conn,
+        "org.gnome.Shell.Extensions",
+        "EnableExtension",
+        (uuid,),
     );
-    let _: () = proxy
-        .method_call("org.gnome.Shell.Extensions", "EnableExtension", (uuid,))
-        .unwrap();
+}
+
+fn call_method(dest: &str, path: &str, interface: &str, method: &str, args: (&str,)) {
+    let conn = dbus::blocking::Connection::new_session().unwrap();
+    let proxy =
+        dbus::blocking::Proxy::new(dest, path, std::time::Duration::from_millis(5000), &conn);
+    let _: () = proxy.method_call(interface, method, args).unwrap();
 }
