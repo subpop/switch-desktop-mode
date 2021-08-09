@@ -45,7 +45,7 @@ fn set_mode_panel() {
 fn set_mode_dock() {
     reset();
     let settings = gio::Settings::new("org.gnome.desktop.wm.preferences");
-    let _ = settings.set_string("button-layout", ":minimize,maximize,close");
+    let _ = settings.reset("button-layout");
     gio::Settings::sync();
 
     enable_shell_extension(DASHTODOCK);
