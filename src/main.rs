@@ -7,6 +7,7 @@ use gio::SettingsExt;
 const DASHTOPANEL: &str = "dash-to-panel@jderose9.github.com";
 const DASHTODOCK: &str = "dash-to-dock@micxgx.gmail.com";
 const ARCMENU: &str = "arcmenu@arcmenu.com";
+const HOTEDGE: &str = "hotedge@jonathan.jdoda.ca";
 
 fn main() {
     let app = clap::App::new("switch-desktop-mode").arg(
@@ -33,6 +34,7 @@ fn reset() {
     disable_shell_extension(DASHTOPANEL);
     disable_shell_extension(DASHTODOCK);
     disable_shell_extension(ARCMENU);
+    disable_shell_extension(HOTEDGE);
 }
 
 fn set_mode_panel() {
@@ -52,6 +54,7 @@ fn set_mode_dock() {
     gio::Settings::sync();
 
     enable_shell_extension(DASHTODOCK);
+    enable_shell_extension(HOTEDGE);
 }
 
 fn disable_shell_extension(uuid: &str) {
